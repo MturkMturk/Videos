@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+   <script>
+      // 2. This code loads the IFrame Player API code asynchronously.
+      var tag = document.createElement('script');
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // 3. This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      var player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+          height: '390',
+          width: '640',
+          videoId: 'Fs9UvCcgIZo',
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+        });
+      }
+
+      // 4. The API will call this function when the video player is ready.
+      function onPlayerReady(event) {
+        event.target.playVideo();
+      }
+
+      // 5. The API calls this function when the player's state changes.
+      //    The function indicates that when playing a video (state=1),
+      //    the player should play for six seconds and then stop.
+      var done = false;
+      function onPlayerStateChange(event) {
+    	  switch(event.data) {
+  	    case YT.PlayerState.PLAYING:
+  	    	if (cleanTime() == 0) {
+  	    		callServlet("Video3 started at ");
+  	    		callServlet("Video3 volume is "+player.getVolume());
+              } else {
+              	callServlet("Video3 played from "+ cleanTime() +" at ");
+              }
+              break;
+  	    case YT.PlayerState.PAUSED:
+  	    	if (player.getDuration() - player.getCurrentTime() != 0) {
+	    		callServlet("Video3 paused from "+ cleanTime() +" at ");
+            }
+  	      break;
+  	    case YT.PlayerState.ENDED:
+  	    	callServlet("Video3 ended at ");
+  	    	callServlet("Video3 volume is "+player.getVolume());
+  	      break;
+  	    default:
+  	      return;
+  	  }
+    }
+      
+      function stopVideo() {
+        player.stopVideo();
+      }
+      
+      function callServlet(params){
+      	var url = "WriteToFile";
+      	var xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function() {
+              if (xhr.readyState == 4) {
+                  var data = xhr.responseText;
+              }
+          }
+          xhr.open('GET', url+"?params="+params, true);
+          xhr.send(null);
+      }
+      
+      function pageLoad(){
+        	var ua = navigator.userAgent;
+        	var device = "";
+        	if(ua.match(/Android/i)){
+        		device = "Android";
+        	} else if(ua.match(/iPhone/i)){
+       			if ((window.screen.height / window.screen.width == 736 / 414) && (window.devicePixelRatio == 3)) {
+       				device = "iPhone 6 Plus";
+       			} else if ((window.screen.height / window.screen.width == 667 / 375) && (window.devicePixelRatio == 2)) {
+       				device = "iPhone 6";
+       			} else if ((window.screen.height / window.screen.width == 1.775) && (window.devicePixelRatio == 2)) {
+       				device = "iPhone 5S";
+       			} else if ((window.screen.height / window.screen.width == 1.5) && (window.devicePixelRatio == 2)) {
+       				device = "iPhone 4 or 4S";
+       			}
+        	} else if(ua.match(/iPad/i)){
+        		device = "iPad";
+        	} else if(ua.match(/iPod/i)){
+        		device = "iPod";
+        	} else if(ua.match(/Linux/i)){
+        		device = "Laptop";
+        	} else {
+        		device = "Others";
+        	}
+          callServlet("Video3 page loaded in "+device+" at ");
+       }
+      
+      function cleanTime(){
+  	    return Math.round(player.getCurrentTime())
+  	 }
+    </script>
+  
+  <body onload="pageLoad()">
+    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+    <div id="player"></div>
+
+  </body>
+</html>

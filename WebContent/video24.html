@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	
+	<script src="https://code.jquery.com/jquery-3.2.1.js" ></script>
+  
+   	<script type="text/javascript" src="//content.jwplatform.com/libraries/4BnFZa5B.js"> </script>
+
+	 <body onload="pageLoad()">
+	   <div id='myElement14'></div>
+	
+	 </body>
+	 
+	 <script type='text/javascript'>
+	 
+	 	function callServlet(params){
+	      	var url = "WriteToFile";
+	      	var xhr = new XMLHttpRequest();
+	          xhr.onreadystatechange = function() {
+	              if (xhr.readyState == 4) {
+	                  var data = xhr.responseText;
+	              }
+	          }
+	          xhr.open('GET', url+"?params="+params, true);
+	          xhr.send(null);
+	      }
+	 
+	      function pageLoad(){
+	        	var ua = navigator.userAgent;
+	        	var device = "";
+	        	if(ua.match(/Android/i)){
+	        		device = "Android";
+	        	} else if(ua.match(/iPhone/i)){
+	       			if ((window.screen.height / window.screen.width == 736 / 414) && (window.devicePixelRatio == 3)) {
+	       				device = "iPhone 6 Plus";
+	       			} else if ((window.screen.height / window.screen.width == 667 / 375) && (window.devicePixelRatio == 2)) {
+	       				device = "iPhone 6";
+	       			} else if ((window.screen.height / window.screen.width == 1.775) && (window.devicePixelRatio == 2)) {
+	       				device = "iPhone 5S";
+	       			} else if ((window.screen.height / window.screen.width == 1.5) && (window.devicePixelRatio == 2)) {
+	       				device = "iPhone 4 or 4S";
+	       			}
+	        	} else if(ua.match(/iPad/i)){
+	        		device = "iPad";
+	        	} else if(ua.match(/iPod/i)){
+	        		device = "iPod";
+	        	} else if(ua.match(/Linux/i)){
+	        		device = "Laptop";
+	        	} else {
+	        		device = "Others";
+	        	}
+	          callServlet("Video24 page loaded in "+device+" at ");
+	       }
+	 </script>
+
+   	<script type='text/javascript'>
+   	
+   
+	   jwplayer("myElement14").setup({
+	       file: "//content.jwplatform.com/videos/oQI1YkcU-N1LyzQwu.mp4"
+	   });
+	   
+	    jwplayer().onDisplayClick(function() { jwplayer().setFullscreen(true); });
+	   
+	   	jwplayer("myElement14").on('volume', function(e) {
+	   		callServlet("Video24 Volume changed to: "+ jwplayer("myElement14").getVolume() +" at ");
+		});
+	   	
+	   	jwplayer("myElement14").on('complete', function(){
+	   		callServlet("Video24 Position: "+Math.floor(jwplayer("myElement14").getPosition())+" ended at ");
+	   	});
+	   	
+   		jwplayer("myElement14").on('play', function(){
+   			callServlet("Video24 Position: "+Math.floor(jwplayer("myElement14").getPosition())+" played at ");
+	   	});
+   		
+   	 	jwplayer("myElement14").on('pause', function(){
+   	 	callServlet("Video24 Position: "+Math.floor(jwplayer("myElement14").getPosition())+" paused at ");
+	   	});
+   		
+    </script>
+  
+
+</html>
