@@ -64,6 +64,7 @@ public class ReadFromFile extends HttpServlet {
 		
 		Query query = new Query("Blogpost");
 		List<Entity> blogposts = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(50));
+		strLine = "";
 		blogposts.forEach(
 			    (result) -> {
 			      strLine = strLine+"\n"+result.getProperty("body");

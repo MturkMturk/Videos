@@ -45,7 +45,7 @@ public class WriteToFile extends HttpServlet {
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
-		String value = req.getParameter("params")+" "+dateFormat.format(date);
+		String value = req.getParameter("params")+" "+dateFormat.format(date)+"\n";
 		//writeToFile(value);
 
 		//Entity post = new Entity("Blogpost", new Date().getTime()); // create a new entity
