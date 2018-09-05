@@ -37,6 +37,7 @@ public class ReadFromFile extends HttpServlet {
 			File file = new File("VideoTask.txt");
 			if (!file.exists()) {
 				file.createNewFile();
+				file.setWritable(true, false);
 			}
 			in = new FileInputStream(file);
 			br = new BufferedReader(new InputStreamReader(in));
