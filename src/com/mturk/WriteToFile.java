@@ -47,8 +47,10 @@ public class WriteToFile extends HttpServlet {
 			file = new File("VideoTask.txt");
 			if (!file.exists()) {
 				file.createNewFile();
+				file.setWritable(true, false);
 				System.out.println("File Created");
 			} else {
+				file.setWritable(true, false);
 				System.out.println("File already present");
 			}
 			fw = new FileWriter(file.getAbsoluteFile(), true);
