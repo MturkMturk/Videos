@@ -68,7 +68,7 @@ public class ReadFromFile extends HttpServlet {
 			    (result) -> {
 			      strLine = strLine+"\n"+result.getProperty("body");
 			    });
-		response.getWriter().append(strLine);
+		response.getWriter().append(strLine+"\n");
 	
 	}
 
