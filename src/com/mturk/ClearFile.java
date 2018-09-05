@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class ClearFile
  */
-@WebServlet("/ClearFile")
 public class ClearFile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
