@@ -1,15 +1,18 @@
 package com.mturk;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Query;
 
 /**
  * Servlet implementation class ReadFromFile
@@ -17,6 +20,14 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ReadFromFile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	DatastoreService datastore;
+	String strLine = "";
+	
+	@Override
+	public void init() throws ServletException {
+		// setup datastore service
+		datastore = DatastoreServiceFactory.getDatastoreService();
+	}
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -30,7 +41,7 @@ public class ReadFromFile extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		FileInputStream in = null;
+		/*FileInputStream in = null;
 		BufferedReader br = null;
 		String strLine = "";
 		try {
@@ -49,7 +60,16 @@ public class ReadFromFile extends HttpServlet {
 			br.close();
 			in.close();
 		}
+		response.getWriter().append(strLine);*/
+		
+		Query query = new Query("Blogpost").addSort("date", Query.SortDirection.DESCENDING);
+		List<Entity> blogposts = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(50));
+		blogposts.forEach(
+			    (result) -> {
+			      strLine = strLine+result.getProperty("body")+"\n";
+			    });
 		response.getWriter().append(strLine);
+	
 	}
 
 	/**

@@ -1,8 +1,5 @@
 package com.mturk;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -13,11 +10,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.datastore.DatastoreFailureException;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+
+
 /**
  * Servlet implementation class WriteToFile
  */
 public class WriteToFile extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
+	DatastoreService datastore;
+	
+	@Override
+	public void init() throws ServletException {
+		// setup datastore service
+		datastore = DatastoreServiceFactory.getDatastoreService();
+	}
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -30,15 +41,27 @@ public class WriteToFile extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
-		String value = request.getParameter("params")+" "+dateFormat.format(date);
-		writeToFile(value);
+		String value = req.getParameter("params")+" "+dateFormat.format(date);
+		//writeToFile(value);
+
+		//Entity post = new Entity("Blogpost", new Date().getTime()); // create a new entity
+		Entity post = new Entity("Blogpost"); // create a new entity
+	
+		post.setProperty("body", value);
+		//post.setProperty("timestamp", new Date().getTime());
+	
+		try {
+			datastore.put(post); // store the entity
+		  } catch (DatastoreFailureException e) {
+		    throw new ServletException("Datastore error", e);
+		  }
 	}
 
-	private void writeToFile(String value) throws IOException {
+/*	private void writeToFile(String value) throws IOException {
 		FileWriter fw = null;
 		File file;
 		BufferedWriter bw = null;
@@ -66,7 +89,7 @@ public class WriteToFile extends HttpServlet {
 			fw.close();
 		}
 		
-	}
+	}*/
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
