@@ -62,7 +62,7 @@ public class ReadFromFile extends HttpServlet {
 		}
 		response.getWriter().append(strLine);*/
 		
-		Query query = new Query("Blogpost").addSort("date", Query.SortDirection.DESCENDING);
+		Query query = new Query("Blogpost");
 		List<Entity> blogposts = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(50));
 		blogposts.forEach(
 			    (result) -> {
