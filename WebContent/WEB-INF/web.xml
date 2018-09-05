@@ -9,4 +9,29 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
+  <servlet>
+        <servlet-name>ReadFromFile</servlet-name>
+        <servlet-class>com.mturk.ReadFromFile</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ReadFromFile</servlet-name>
+        <url-pattern>/ReadFromFile</url-pattern>
+    </servlet-mapping>
+  <servlet>
+        <servlet-name>ClearFile</servlet-name>
+        <servlet-class>com.mturk.ClearFile</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ClearFile</servlet-name>
+        <url-pattern>/ClearFile</url-pattern>
+    </servlet-mapping>
+  <servlet>
+        <servlet-name>WriteToFile</servlet-name>
+        <servlet-class>com.mturk.WriteToFile</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>WriteToFile</servlet-name>
+        <url-pattern>/WriteToFile</url-pattern>
+    </servlet-mapping>
 </web-app>
