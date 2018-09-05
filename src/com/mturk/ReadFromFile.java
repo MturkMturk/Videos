@@ -21,7 +21,7 @@ import com.google.appengine.api.datastore.Query;
 public class ReadFromFile extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	DatastoreService datastore;
-	String strLine = "";
+	StringBuilder strLine = null;
 	
 	@Override
 	public void init() throws ServletException {
@@ -64,12 +64,13 @@ public class ReadFromFile extends HttpServlet {
 		
 		Query query = new Query("Blogpost");
 		List<Entity> blogposts = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(50));
-		strLine = "";
+		strLine = new StringBuilder();
 		blogposts.forEach(
 			    (result) -> {
-			      strLine = strLine+"\n"+result.getProperty("body");
+			    	strLine.append(result.getProperty("body"));
+			    	strLine.append("\n");
 			    });
-		response.getWriter().append(strLine+"\n");
+		response.getWriter().append(strLine);
 	
 	}
 
