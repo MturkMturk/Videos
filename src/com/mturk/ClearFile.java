@@ -30,6 +30,7 @@ public class ClearFile extends HttpServlet {
 		File file = new File("VideoTask.txt");
 		if (!file.exists()) {
 			file.createNewFile();
+			file.setWritable(true, false);
 		} else {
 			PrintWriter writer = new PrintWriter(file);
 			writer.print("");
