@@ -52,7 +52,11 @@ public class WriteToFile extends HttpServlet {
 		Entity post = new Entity("Blogpost"); // create a new entity
 	
 		post.setProperty("body", value);
-		//post.setProperty("timestamp", new Date().getTime());
+		if(value != null && !value.equals("")) {
+			String videoNumber = value.split(" ",2)[0];
+			post.setProperty("videoNumber", videoNumber);
+		}
+		post.setProperty("timestamp", new Date().getTime());
 	
 		try {
 			datastore.put(post); // store the entity

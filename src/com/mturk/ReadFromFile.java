@@ -62,7 +62,7 @@ public class ReadFromFile extends HttpServlet {
 		}
 		response.getWriter().append(strLine);*/
 		
-		Query query = new Query("Blogpost");
+		Query query = new Query("Blogpost").addSort("videoNumber").addSort("timestamp");
 		List<Entity> blogposts = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(50));
 		strLine = new StringBuilder();
 		blogposts.forEach(
@@ -70,6 +70,7 @@ public class ReadFromFile extends HttpServlet {
 			    	strLine.append(result.getProperty("body"));
 			    	strLine.append("\n");
 			    });
+		response.setContentType("text/plain");
 		response.getWriter().append(strLine);
 	
 	}
