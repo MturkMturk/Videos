@@ -1,0 +1,10 @@
+---
+applications:
+- name: videos
+  instances: 1
+  host: videos
+  memory: 1G
+  path: ./target/Videos.war
+  buildpack: https://github.com/cloudfoundry/java-buildpack.git#v4.19.1
+  disk_quota: 512M
+  random-route: false
