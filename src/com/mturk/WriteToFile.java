@@ -40,7 +40,7 @@ public class WriteToFile extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -63,7 +63,7 @@ public class WriteToFile extends HttpServlet {
 		  } catch (DatastoreFailureException e) {
 		    throw new ServletException("Datastore error", e);
 		  }
-	}
+	}*/
 
 /*	private void writeToFile(String value) throws IOException {
 		FileWriter fw = null;
@@ -97,10 +97,10 @@ public class WriteToFile extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
-	}
+	} */
 
 }
